@@ -19,7 +19,7 @@ export default class WelcomeScreen extends Component<Props> {
         <View style={styles.textContainer}>
           <CustomText text={"We Snitch... 😉"} style={styles.title} />
           <CustomText
-            text="We help your loved ones find you in case you illegally got picked up."
+            text="We help your loved ones find you in case you go off the grid."
             style={styles.subTitle}
           />
           <CustomButton

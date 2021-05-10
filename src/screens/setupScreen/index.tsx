@@ -305,7 +305,9 @@ export default class SetupScreen extends Component<Props> {
                   keyboardVerticalOffset={30}
                 >
                   <CustomText
-                    text="Who do you want to inform when in distress?"
+                    text={
+                      "Who would you want to inform when in distress?\n\nAn email is going to be sent to the contacts provided."
+                    }
                     style={styles.title}
                   />
                   <ContactDetails
