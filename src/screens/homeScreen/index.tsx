@@ -19,6 +19,7 @@ import { styles } from "./styles";
 import CustomButton from "../_components/CustomButton";
 import CustomText from "../_components/CustomText";
 import { colors } from "../colors";
+import SnitchLoader from "screens/_components/SnitchLoader";
 
 interface Props {
   navigation: StackNavigationProp<Record<string, object | undefined>, string>;
@@ -35,6 +36,7 @@ interface Route {
 
 interface State {
   contacts: Array<Contact>;
+  isLoading: boolean;
 }
 
 interface Contact {
@@ -66,6 +68,7 @@ export default class HomeScreen extends Component<Props> {
 
     this.state = {
       contacts: [],
+      isLoading: false,
     };
     LogBox.ignoreLogs([/useAnimatedDriver/]);
   }
@@ -364,29 +367,35 @@ export default class HomeScreen extends Component<Props> {
   };
 
   sendDistressMail = async () => {
-    Geolocation.getCurrentPosition(
-      (info) => console.warn("info: ", JSON.stringify(info, null, 10)),
-      async (error) => {
-        if (
-          error.message == "Location permission was not granted." &&
-          Platform.OS == "android"
-        ) {
-          await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            {
-              title: "",
-              message:
-                "Snitch needs to know your current location, so it could be sent to your contacts.",
-              buttonPositive: "Request Permission",
-              buttonNegative: "Decline",
-            }
-          );
-        } else if (error.message == "No location provider available.")
-          this.enableLocation();
-        else console.warn(error);
-      },
-      { maximumAge: 10000, enableHighAccuracy: true, timeout: 15000 }
-    );
+    try {
+      this.setState({ isLoading: true });
+      Geolocation.getCurrentPosition(
+        (info) => console.warn("info: ", JSON.stringify(info, null, 10)),
+        async (error) => {
+          if (
+            error.message == "Location permission was not granted." &&
+            Platform.OS == "android"
+          ) {
+            await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+              {
+                title: "",
+                message:
+                  "Snitch needs to know your current location, so it could be sent to your contacts.",
+                buttonPositive: "Request Permission",
+                buttonNegative: "Decline",
+              }
+            );
+          } else if (error.message == "No location provider available.")
+            this.enableLocation();
+          else console.warn(error);
+          this.setState({ isLoading: false });
+        },
+        { maximumAge: 10000, enableHighAccuracy: true, timeout: 15000 }
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   render() {
@@ -413,6 +422,10 @@ export default class HomeScreen extends Component<Props> {
             {this.thirdItem()}
           </Modal>
         </View>
+        <SnitchLoader
+          showLoader={this.state.isLoading}
+          action="sending distress mail"
+        />
       </SafeAreaView>
     );
   }

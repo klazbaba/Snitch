@@ -306,7 +306,7 @@ export default class SetupScreen extends Component<Props> {
                 >
                   <CustomText
                     text={
-                      "Who would you want to inform when in distress?\n\nAn email is going to be sent to the contacts provided."
+                      "Who would you want to inform when in distress?\n\nAn email with your current location is going to be sent to the contacts provided."
                     }
                     style={styles.title}
                   />
