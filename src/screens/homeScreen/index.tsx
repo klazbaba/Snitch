@@ -1,15 +1,26 @@
-import React, { Component } from "react";
-import { SafeAreaView, Modal, View, Animated, Easing } from "react-native";
+import React, { Component, createRef, RefObject } from "react";
+import {
+  SafeAreaView,
+  Modal,
+  View,
+  Animated,
+  Easing,
+  Platform,
+  PermissionsAndroid,
+} from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { Button, Icon } from "native-base";
 import { StackNavigationProp } from "@react-navigation/stack";
-// @ts-ignore
 import { LogBox } from "react-native";
+import Geolocation from "react-native-geolocation-service";
+import RNAndroidLocationEnabler from "react-native-android-location-enabler";
+import Toast from "react-native-easy-toast";
 
 import { styles } from "./styles";
 import CustomButton from "../_components/CustomButton";
 import CustomText from "../_components/CustomText";
 import { colors } from "../colors";
+import SnitchLoader from "screens/_components/SnitchLoader";
 
 interface Props {
   navigation: StackNavigationProp<Record<string, object | undefined>, string>;
@@ -26,6 +37,7 @@ interface Route {
 
 interface State {
   contacts: Array<Contact>;
+  isLoading: boolean;
 }
 
 interface Contact {
@@ -44,6 +56,7 @@ const animationTime = 500;
 
 export default class HomeScreen extends Component<Props> {
   state: State;
+  toast: RefObject<any> = createRef();
 
   constructor(props: Props) {
     super(props);
@@ -57,6 +70,7 @@ export default class HomeScreen extends Component<Props> {
 
     this.state = {
       contacts: [],
+      isLoading: false,
     };
     LogBox.ignoreLogs([/useAnimatedDriver/]);
   }
@@ -345,6 +359,52 @@ export default class HomeScreen extends Component<Props> {
     );
   };
 
+  enableLocation = async () => {
+    try {
+      const locationEnabler = await RNAndroidLocationEnabler.promptForEnableLocationIfNeeded(
+        { interval: 10000, fastInterval: 5000 }
+      );
+      if (locationEnabler == "enabled") await this.sendDistressMail();
+    } catch (error) {}
+  };
+
+  sendDistressMail = async () => {
+    try {
+      this.setState({ isLoading: true });
+      Geolocation.getCurrentPosition(
+        (info) => {
+          console.warn("info: ", JSON.stringify(info, null, 10));
+          this.setState({ isLoading: false });
+        },
+        async (error) => {
+          if (
+            error.message == "Location permission was not granted." &&
+            Platform.OS == "android"
+          ) {
+            await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+              {
+                title: "",
+                message:
+                  "Snitch needs to know your current location, so it could be sent to your contacts.",
+                buttonPositive: "Request Permission",
+                buttonNegative: "Decline",
+              }
+            );
+          } else if (error.message == "No location provider available.")
+            this.enableLocation();
+          else if (error.code === 3) this.toast.current.show(error.message);
+          else console.error(error);
+
+          this.setState({ isLoading: false });
+        },
+        { maximumAge: 10000, enableHighAccuracy: true, timeout: 15000 }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   render() {
     const {
       route: { params },
@@ -352,8 +412,12 @@ export default class HomeScreen extends Component<Props> {
     } = this.props;
     return (
       <SafeAreaView style={styles.container} testID="HomeScreen">
+        <Toast ref={this.toast} />
         <View style={{ padding: 24 }}>
-          <CustomButton text="Send Distress Mail" onPress={() => null} />
+          <CustomButton
+            text="Send Distress Mail"
+            onPress={this.sendDistressMail}
+          />
           <CustomButton
             text="View Contacts"
             onPress={() => navigation.setParams({ showModal: true })}
@@ -367,6 +431,10 @@ export default class HomeScreen extends Component<Props> {
             {this.thirdItem()}
           </Modal>
         </View>
+        <SnitchLoader
+          showLoader={this.state.isLoading}
+          action="sending distress mail"
+        />
       </SafeAreaView>
     );
   }

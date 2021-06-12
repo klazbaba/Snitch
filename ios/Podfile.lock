@@ -251,9 +251,11 @@ PODS:
     - DoubleConversion
     - Folly (= 2020.01.13.00)
     - glog
-    - React-cxxreact (= 0.63.2)
-    - React-jsi (= 0.63.2)
-  - React-jsinspector (0.63.2)
+    - React-cxxreact (= 0.63.0)
+    - React-jsi (= 0.63.0)
+  - React-jsinspector (0.63.0)
+  - react-native-geolocation-service (5.0.0):
+    - React
   - react-native-safe-area-context (0.6.2):
     - React
   - React-RCTActionSheet (0.63.2):
@@ -372,6 +374,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-geolocation-service (from `../node_modules/react-native-geolocation-service`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -445,6 +448,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-geolocation-service:
+    :path: "../node_modules/react-native-geolocation-service"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-RCTActionSheet:
@@ -504,16 +509,17 @@ SPEC CHECKSUMS:
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
-  RCTRequired: f13f25e7b12f925f1f6a6a8c69d929a03c0129fe
-  RCTTypeSafety: 44982c5c8e43ff4141eb519a8ddc88059acd1f3a
-  React: e1c65dd41cb9db13b99f24608e47dd595f28ca9a
-  React-callinvoker: 552a6a6bc8b3bb794cf108ad59e5a9e2e3b4fc98
-  React-Core: 9d341e725dc9cd2f49e4c49ad1fc4e8776aa2639
-  React-CoreModules: 5335e168165da7f7083ce7147768d36d3e292318
-  React-cxxreact: d3261ec5f7d11743fbf21e263a34ea51d1f13ebc
-  React-jsi: 54245e1d5f4b690dec614a73a3795964eeef13a8
-  React-jsiexecutor: 8ca588cc921e70590820ce72b8789b02c67cce38
-  React-jsinspector: b14e62ebe7a66e9231e9581279909f2fc3db6606
+  RCTRequired: e46bb77db03887b3e200d34b08515c804669db99
+  RCTTypeSafety: 270fed6675c42f80fb87b47d626ef3cede1505e6
+  React: e008906ff1328f9bccb345ff4f7826397ad223fc
+  React-callinvoker: f547824e0a626f4bce516ee65f548004b0784e7e
+  React-Core: 1c28d2ecde60ded3fe42d8db4f684afb8709757b
+  React-CoreModules: 8e6139e59f5347e2cf3ceb63e4532fb5b4b39a2d
+  React-cxxreact: 98fef06e1ca59eb075ef5bc4c6f256d5c6840936
+  React-jsi: 254710f3a97e587427bfbf3011dacec2af66a1fc
+  React-jsiexecutor: 0e0cb4e170ca72d4bb1179843d08dcbea3d100ac
+  React-jsinspector: fc661eff8edbfb7e22119382c13f33bcadde0f3c
+  react-native-geolocation-service: 141e33bdb179bcba10b216ee13962611e21f2be4
   react-native-safe-area-context: 25260c5d0b9c53fd7aa88e569e2edae72af1f6a3
   React-RCTActionSheet: 910163b6b09685a35c4ebbc52b66d1bfbbe39fc5
   React-RCTAnimation: 9a883bbe1e9d2e158d4fb53765ed64c8dc2200c6
