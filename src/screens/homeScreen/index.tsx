@@ -411,7 +411,7 @@ export default class HomeScreen extends Component<Props> {
       navigation,
     } = this.props;
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container} testID="HomeScreen">
         <Toast ref={this.toast} />
         <View style={{ padding: 24 }}>
           <CustomButton
@@ -422,6 +422,7 @@ export default class HomeScreen extends Component<Props> {
             text="View Contacts"
             onPress={() => navigation.setParams({ showModal: true })}
             style={styles.contactsButton}
+            testID="viewContacts"
           />
 
           <Modal transparent visible={!!params?.showModal}>
