@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef, RefObject } from "react";
 import {
   SafeAreaView,
   Modal,
@@ -14,6 +14,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { LogBox } from "react-native";
 import Geolocation from "react-native-geolocation-service";
 import RNAndroidLocationEnabler from "react-native-android-location-enabler";
+import Toast from "react-native-easy-toast";
 
 import { styles } from "./styles";
 import CustomButton from "../_components/CustomButton";
@@ -55,6 +56,7 @@ const animationTime = 500;
 
 export default class HomeScreen extends Component<Props> {
   state: State;
+  toast: RefObject<any> = createRef();
 
   constructor(props: Props) {
     super(props);
@@ -370,7 +372,10 @@ export default class HomeScreen extends Component<Props> {
     try {
       this.setState({ isLoading: true });
       Geolocation.getCurrentPosition(
-        (info) => console.warn("info: ", JSON.stringify(info, null, 10)),
+        (info) => {
+          console.warn("info: ", JSON.stringify(info, null, 10));
+          this.setState({ isLoading: false });
+        },
         async (error) => {
           if (
             error.message == "Location permission was not granted." &&
@@ -388,7 +393,9 @@ export default class HomeScreen extends Component<Props> {
             );
           } else if (error.message == "No location provider available.")
             this.enableLocation();
-          else console.warn(error);
+          else if (error.code === 3) this.toast.current.show(error.message);
+          else console.error(error);
+
           this.setState({ isLoading: false });
         },
         { maximumAge: 10000, enableHighAccuracy: true, timeout: 15000 }
@@ -405,6 +412,7 @@ export default class HomeScreen extends Component<Props> {
     } = this.props;
     return (
       <SafeAreaView style={styles.container}>
+        <Toast ref={this.toast} />
         <View style={{ padding: 24 }}>
           <CustomButton
             text="Send Distress Mail"
