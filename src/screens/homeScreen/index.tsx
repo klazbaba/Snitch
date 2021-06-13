@@ -1,4 +1,4 @@
-import React, { Component, createRef, RefObject } from "react";
+import React, { Component, createRef, RefObject } from 'react';
 import {
   SafeAreaView,
   Modal,
@@ -7,20 +7,20 @@ import {
   Easing,
   Platform,
   PermissionsAndroid,
-} from "react-native";
-import AsyncStorage from "@react-native-community/async-storage";
-import { Button, Icon } from "native-base";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { LogBox } from "react-native";
-import Geolocation from "react-native-geolocation-service";
-import RNAndroidLocationEnabler from "react-native-android-location-enabler";
-import Toast from "react-native-easy-toast";
+} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import { Button, Icon } from 'native-base';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { LogBox } from 'react-native';
+import Geolocation from 'react-native-geolocation-service';
+import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
+import Toast from 'react-native-easy-toast';
 
-import { styles } from "./styles";
-import CustomButton from "../_components/CustomButton";
-import CustomText from "../_components/CustomText";
-import { colors } from "../colors";
-import SnitchLoader from "screens/_components/SnitchLoader";
+import { styles } from './styles';
+import CustomButton from '../_components/CustomButton';
+import CustomText from '../_components/CustomText';
+import { colors } from '../colors';
+import SnitchLoader from 'screens/_components/SnitchLoader';
 
 interface Props {
   navigation: StackNavigationProp<Record<string, object | undefined>, string>;
@@ -60,7 +60,7 @@ export default class HomeScreen extends Component<Props> {
 
   constructor(props: Props) {
     super(props);
-    AsyncStorage.getItem("contactDetails").then((contacts) => {
+    AsyncStorage.getItem('contactDetails').then(contacts => {
       contacts = JSON.parse(contacts);
       this.setState({
         contacts: Object.values(contacts),
@@ -76,7 +76,7 @@ export default class HomeScreen extends Component<Props> {
   }
 
   componentDidMount = () => {
-    this.props.navigation.addListener("focus", () => {
+    this.props.navigation.addListener('focus', () => {
       if (this.props.route.params?.fromEdit) {
         const { contacts } = this.props.route.params;
         this.setState({
@@ -88,7 +88,7 @@ export default class HomeScreen extends Component<Props> {
   };
 
   componentWillUnmount = () =>
-    this.props.navigation.removeListener("focus", () => {});
+    this.props.navigation.removeListener('focus', () => {});
 
   animate = (from: Animated.Value, to: number) => {
     Animated.timing(from, {
@@ -102,50 +102,50 @@ export default class HomeScreen extends Component<Props> {
   getAnimationValue = (
     currentContact: number,
     nextContact: number,
-    animationType: "roll" | "move" = "roll"
+    animationType: 'roll' | 'move' = 'roll',
   ) => {
-    if (currentContact === 0 && nextContact === 1 && animationType == "roll")
+    if (currentContact === 0 && nextContact === 1 && animationType == 'roll')
       return { from: rollingAnimationValue0, to: 1 };
     else if (
       currentContact === 0 &&
       nextContact === 1 &&
-      animationType == "move"
+      animationType == 'move'
     )
       return { from: movingAnimationValue0, to: 500 };
     else if (
       currentContact === 1 &&
       nextContact === 0 &&
-      animationType === "roll"
+      animationType === 'roll'
     )
       return { from: rollingAnimationValue0, to: 0 };
     else if (
       currentContact === 1 &&
       nextContact === 0 &&
-      animationType === "move"
+      animationType === 'move'
     )
       return { from: movingAnimationValue0, to: 0 };
     else if (
       currentContact === 1 &&
       nextContact === 2 &&
-      animationType === "roll"
+      animationType === 'roll'
     )
       return { from: rollingAnimationValue1, to: 1 };
     else if (
       currentContact === 1 &&
       nextContact === 2 &&
-      animationType == "move"
+      animationType == 'move'
     )
       return { from: movingAnimationValue1, to: 500 };
     else if (
       currentContact === 3 &&
       nextContact === 2 &&
-      animationType === "roll"
+      animationType === 'roll'
     )
       return { from: rollingAnimationValue1, to: 0 };
     else if (
       currentContact === 3 &&
       nextContact === 2 &&
-      animationType == "move"
+      animationType == 'move'
     )
       return { from: movingAnimationValue1, to: 0 };
   };
@@ -155,7 +155,7 @@ export default class HomeScreen extends Component<Props> {
     const moveValue = this.getAnimationValue(
       currentContact,
       nextContact,
-      "move"
+      'move',
     );
 
     this.animate(rollValue.from, rollValue.to);
@@ -166,13 +166,13 @@ export default class HomeScreen extends Component<Props> {
     const { navigate, setParams } = this.props.navigation;
     const { contacts } = this.state;
     setParams({ showModal: false });
-    navigate("EditContactScreen", { contact, details: contacts[contact] });
+    navigate('EditContactScreen', { contact, details: contacts[contact] });
   };
 
   firstItem = () => {
     const rotate = rollingAnimationValue0.interpolate({
       inputRange: [0, 1],
-      outputRange: ["0deg", "180deg"],
+      outputRange: ['0deg', '180deg'],
     });
     const { contacts } = this.state;
     const { navigation } = this.props;
@@ -182,13 +182,11 @@ export default class HomeScreen extends Component<Props> {
         style={[
           { transform: [{ translateX: movingAnimationValue0 }], zIndex: 2 },
           styles.modalContent,
-        ]}
-      >
+        ]}>
         <Button
           style={styles.pencil}
           transparent
-          onPress={() => this.editContact(0)}
-        >
+          onPress={() => this.editContact(0)}>
           <Icon
             name="pencil"
             type="EvilIcons"
@@ -218,16 +216,14 @@ export default class HomeScreen extends Component<Props> {
             </Button>
             <Button
               style={{ backgroundColor: colors.brown }}
-              onPress={() => this.showContact(0, 1)}
-            >
+              onPress={() => this.showContact(0, 1)}>
               <Icon name="arrowright" type="AntDesign" />
             </Button>
           </View>
 
           <Button
             style={styles.closeButton}
-            onPress={() => navigation.setParams({ showModal: false })}
-          >
+            onPress={() => navigation.setParams({ showModal: false })}>
             <Icon name="close" type="AntDesign" />
           </Button>
         </Animated.View>
@@ -238,7 +234,7 @@ export default class HomeScreen extends Component<Props> {
   secondItem = () => {
     const rotate = rollingAnimationValue1.interpolate({
       inputRange: [0, 1],
-      outputRange: ["0deg", "180deg"],
+      outputRange: ['0deg', '180deg'],
     });
     const { contacts } = this.state;
     const { navigation } = this.props;
@@ -248,13 +244,11 @@ export default class HomeScreen extends Component<Props> {
         style={[
           { transform: [{ translateX: movingAnimationValue1 }], zIndex: 1 },
           styles.modalContent,
-        ]}
-      >
+        ]}>
         <Button
           style={styles.pencil}
           transparent
-          onPress={() => this.editContact(1)}
-        >
+          onPress={() => this.editContact(1)}>
           <Icon
             name="pencil"
             type="EvilIcons"
@@ -281,22 +275,19 @@ export default class HomeScreen extends Component<Props> {
           <View style={styles.navigationIconsWrapper}>
             <Button
               style={{ backgroundColor: colors.brown }}
-              onPress={() => this.showContact(1, 0)}
-            >
+              onPress={() => this.showContact(1, 0)}>
               <Icon name="arrowleft" type="AntDesign" />
             </Button>
             <Button
               style={{ backgroundColor: colors.brown }}
-              onPress={() => this.showContact(1, 2)}
-            >
+              onPress={() => this.showContact(1, 2)}>
               <Icon name="arrowright" type="AntDesign" />
             </Button>
           </View>
 
           <Button
             style={styles.closeButton}
-            onPress={() => navigation.setParams({ showModal: false })}
-          >
+            onPress={() => navigation.setParams({ showModal: false })}>
             <Icon name="close" type="AntDesign" />
           </Button>
         </Animated.View>
@@ -313,8 +304,7 @@ export default class HomeScreen extends Component<Props> {
         <Button
           style={styles.pencil}
           transparent
-          onPress={() => this.editContact(2)}
-        >
+          onPress={() => this.editContact(2)}>
           <Icon
             name="pencil"
             type="EvilIcons"
@@ -340,8 +330,7 @@ export default class HomeScreen extends Component<Props> {
         <View style={styles.navigationIconsWrapper}>
           <Button
             style={{ backgroundColor: colors.brown }}
-            onPress={() => this.showContact(3, 2)}
-          >
+            onPress={() => this.showContact(3, 2)}>
             <Icon name="arrowleft" type="AntDesign" />
           </Button>
           <Button style={{ backgroundColor: colors.brown }}>
@@ -351,8 +340,7 @@ export default class HomeScreen extends Component<Props> {
 
         <Button
           style={styles.closeButton}
-          onPress={() => navigation.setParams({ showModal: false })}
-        >
+          onPress={() => navigation.setParams({ showModal: false })}>
           <Icon name="close" type="AntDesign" />
         </Button>
       </View>
@@ -362,9 +350,9 @@ export default class HomeScreen extends Component<Props> {
   enableLocation = async () => {
     try {
       const locationEnabler = await RNAndroidLocationEnabler.promptForEnableLocationIfNeeded(
-        { interval: 10000, fastInterval: 5000 }
+        { interval: 10000, fastInterval: 5000 },
       );
-      if (locationEnabler == "enabled") await this.sendDistressMail();
+      if (locationEnabler == 'enabled') await this.sendDistressMail();
     } catch (error) {}
   };
 
@@ -372,33 +360,33 @@ export default class HomeScreen extends Component<Props> {
     try {
       this.setState({ isLoading: true });
       Geolocation.getCurrentPosition(
-        (info) => {
-          console.warn("info: ", JSON.stringify(info, null, 10));
+        info => {
+          console.warn('info: ', JSON.stringify(info, null, 10));
           this.setState({ isLoading: false });
         },
-        async (error) => {
+        async error => {
           if (
-            error.message == "Location permission was not granted." &&
-            Platform.OS == "android"
+            error.message == 'Location permission was not granted.' &&
+            Platform.OS == 'android'
           ) {
             await PermissionsAndroid.request(
               PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
               {
-                title: "",
+                title: '',
                 message:
-                  "Snitch needs to know your current location, so it could be sent to your contacts.",
-                buttonPositive: "Request Permission",
-                buttonNegative: "Decline",
-              }
+                  'Snitch needs to know your current location, so it could be sent to your contacts.',
+                buttonPositive: 'Request Permission',
+                buttonNegative: 'Decline',
+              },
             );
-          } else if (error.message == "No location provider available.")
+          } else if (error.message == 'No location provider available.')
             this.enableLocation();
           else if (error.code === 3) this.toast.current.show(error.message);
           else console.error(error);
 
           this.setState({ isLoading: false });
         },
-        { maximumAge: 10000, enableHighAccuracy: true, timeout: 15000 }
+        { maximumAge: 10000, enableHighAccuracy: true, timeout: 15000 },
       );
     } catch (error) {
       console.error(error);
