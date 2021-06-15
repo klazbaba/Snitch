@@ -2,13 +2,16 @@ import React, { Component, createRef } from 'react';
 import { Form, FormItem } from 'react-native-form-component';
 
 import Screen from 'screens/_components/Screen';
+import { colors } from 'screens/colors';
+import Loader from 'screens/_components/Loader';
 
 import { styles } from './styles';
-import { colors } from 'screens/colors';
 
 interface State {
   firstname: string;
   lastName: string;
+  email: string;
+  isLoading: boolean;
 }
 
 export default class SignupScreen extends Component<null, State> {
@@ -16,29 +19,38 @@ export default class SignupScreen extends Component<null, State> {
     firstname: '',
     lastName: '',
     email: '',
+    isLoading: true,
   };
   firstNameInput = createRef();
   lastNameInput = createRef();
   emailInput = createRef();
 
+  handleSignup = async () => {
+    const { email, firstname, lastName } = this.state;
+    console.warn(firstname);
+  };
+
   render() {
-    const { firstname, lastName, email } = this.state;
+    const { firstname, lastName, email, isLoading } = this.state;
     return (
       <Screen contentContainerStyle={styles.container}>
+        <Loader showLoader={isLoading} message="Please Wait" />
         <Form
-          onButtonPress={() => {}}
+          onButtonPress={this.handleSignup}
           buttonStyle={{ backgroundColor: colors.green }}>
           <FormItem
             value={firstname}
             label="Firstname"
             isRequired
             ref={this.firstNameInput}
+            onChangeText={firstname => this.setState({ firstname })}
           />
           <FormItem
             value={lastName}
             label="Last Name"
             isRequired
             ref={this.lastNameInput}
+            onChangeText={lastName => this.setState({ lastName })}
           />
           <FormItem
             value={email}
@@ -46,6 +58,7 @@ export default class SignupScreen extends Component<null, State> {
             isRequired
             ref={this.emailInput}
             keyboardType="email-address"
+            onChangeText={email => this.setState({ email })}
           />
         </Form>
       </Screen>
