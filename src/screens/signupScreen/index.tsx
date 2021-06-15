@@ -19,7 +19,7 @@ export default class SignupScreen extends Component<null, State> {
     firstname: '',
     lastName: '',
     email: '',
-    isLoading: true,
+    isLoading: false,
   };
   firstNameInput = createRef();
   lastNameInput = createRef();
@@ -27,7 +27,12 @@ export default class SignupScreen extends Component<null, State> {
 
   handleSignup = async () => {
     const { email, firstname, lastName } = this.state;
-    console.warn(firstname);
+    try {
+      this.setState({ isLoading: true });
+    } catch (error) {
+    } finally {
+      this.setState({ isLoading: false });
+    }
   };
 
   render() {

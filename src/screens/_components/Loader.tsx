@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, View, ActivityIndicator, StyleSheet } from 'react-native';
 import { colors } from 'screens/colors';
+
 import CustomText from './CustomText';
 
 interface Props {
