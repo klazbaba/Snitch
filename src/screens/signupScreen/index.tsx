@@ -1,11 +1,13 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef, RefObject } from 'react';
 import { Form, FormItem } from 'react-native-form-component';
+import { TextInput } from 'react-native';
 
 import Screen from 'screens/_components/Screen';
 import { colors } from 'screens/colors';
 import Loader from 'screens/_components/Loader';
 
 import { styles } from './styles';
+import { signup } from './backendCalls/signup';
 
 interface State {
   firstname: string;
@@ -21,15 +23,17 @@ export default class SignupScreen extends Component<null, State> {
     email: '',
     isLoading: false,
   };
-  firstNameInput = createRef();
-  lastNameInput = createRef();
-  emailInput = createRef();
+  firstNameInput: RefObject<TextInput> = createRef();
+  lastNameInput: RefObject<TextInput> = createRef();
+  emailInput: RefObject<TextInput> = createRef();
 
   handleSignup = async () => {
     const { email, firstname, lastName } = this.state;
     try {
       this.setState({ isLoading: true });
+      const response = await signup({ email, firstname, lastName });
     } catch (error) {
+      console.error(error);
     } finally {
       this.setState({ isLoading: false });
     }
@@ -49,6 +53,8 @@ export default class SignupScreen extends Component<null, State> {
             isRequired
             ref={this.firstNameInput}
             onChangeText={firstname => this.setState({ firstname })}
+            blurOnSubmit={false}
+            onSubmitEditing={() => this.lastNameInput.current.focus()}
           />
           <FormItem
             value={lastName}
@@ -56,6 +62,8 @@ export default class SignupScreen extends Component<null, State> {
             isRequired
             ref={this.lastNameInput}
             onChangeText={lastName => this.setState({ lastName })}
+            blurOnSubmit={false}
+            onSubmitEditing={() => this.emailInput.current.focus()}
           />
           <FormItem
             value={email}

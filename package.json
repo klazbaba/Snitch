@@ -18,6 +18,8 @@
     "appcenter-analytics": "^3.0.1",
     "appcenter-crashes": "^3.0.1",
     "axios": "^0.21.1",
+    "global": "^4.4.0",
+    "localtunnel": "^2.0.1",
     "native-base": "^2.13.8",
     "react": "17.0.1",
     "react-native": "0.64.2",
