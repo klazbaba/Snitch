@@ -1,14 +1,15 @@
-import "react-native-gesture-handler";
-import { NavigationContainer } from "@react-navigation/native";
-import React, { Component, createContext } from "react";
-import { Root } from "native-base";
-import AsyncStorage from "@react-native-community/async-storage";
-import { createStackNavigator } from "@react-navigation/stack";
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import React, { Component, createContext } from 'react';
+import { Root } from 'native-base';
+import AsyncStorage from '@react-native-community/async-storage';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import WelcomeScreen from "./screens/welcomeScreen";
-import SetupScreen from "./screens/setupScreen";
-import HomeScreen from "./screens/homeScreen";
-import EditContactScreen from "./screens/editContactScreen";
+import WelcomeScreen from 'screens/welcomeScreen';
+import SetupScreen from 'screens/setupScreen';
+import HomeScreen from 'screens/homeScreen';
+import EditContactScreen from 'screens/editContactScreen';
+import SignupScreen from 'screens/signupScreen';
 
 const AppStack = createStackNavigator();
 
@@ -33,7 +34,7 @@ export default class Routes extends Component<Props, State> {
   }
 
   componentDidMount = async () => {
-    const contactDetails = await AsyncStorage.getItem("contactDetails");
+    const contactDetails = await AsyncStorage.getItem('contactDetails');
     this.setState({
       notFirstTime: Boolean(contactDetails),
       initialRender: false,
@@ -53,8 +54,7 @@ export default class Routes extends Component<Props, State> {
                 this.context = false;
                 this.setState({ notFirstTime: true });
               },
-            }}
-          >
+            }}>
             <AppStack.Navigator headerMode="none">
               {!notFirstTime ? (
                 <>
@@ -62,7 +62,10 @@ export default class Routes extends Component<Props, State> {
                     name="WelcomeScreen"
                     component={WelcomeScreen}
                   />
-                  <AppStack.Screen name="SetupScreen" component={SetupScreen} />
+                  <AppStack.Screen
+                    name="SignupScreen"
+                    component={SignupScreen}
+                  />
                 </>
               ) : (
                 <>
@@ -75,6 +78,7 @@ export default class Routes extends Component<Props, State> {
                     component={EditContactScreen}
                     name="EditContactScreen"
                   />
+                  <AppStack.Screen name="SetupScreen" component={SetupScreen} />
                 </>
               )}
             </AppStack.Navigator>

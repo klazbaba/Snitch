@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   ScrollView,
   SafeAreaView,
@@ -6,20 +6,20 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   ScaledSize,
-} from "react-native";
-import { Fab, Toast } from "native-base";
-import AsyncStorage from "@react-native-community/async-storage";
-import { StackNavigationProp } from "@react-navigation/stack";
+} from 'react-native';
+import { Fab, Toast } from 'native-base';
+import AsyncStorage from '@react-native-community/async-storage';
+import { StackNavigationProp } from '@react-navigation/stack';
 // @ts-ignore
-import { LogBox } from "react-native";
+import { LogBox } from 'react-native';
 
-import { styles } from "./styles";
-import ContactDetails from "../_components/ContactDetails";
-import CustomText from "../_components/CustomText";
-import CustomButton from "../_components/CustomButton";
-import { colors } from "../colors";
-import { constants } from "../../constants";
-import { NavigationContext } from "../../App";
+import { styles } from './styles';
+import ContactDetails from '../_components/ContactDetails';
+import CustomText from '../_components/CustomText';
+import CustomButton from '../_components/CustomButton';
+import { colors } from '../colors';
+import { constants } from '../../constants';
+import { NavigationContext } from '../../App';
 
 interface Props {
   navigation: StackNavigationProp<Record<string, object | undefined>, string>;
@@ -41,7 +41,7 @@ interface State {
   thirdUsernameHasError: boolean;
 }
 
-const { height }: ScaledSize = Dimensions.get("window");
+const { height }: ScaledSize = Dimensions.get('window');
 const secondWrapper: Animated.Value = new Animated.Value(-height);
 const thirdWrapper: Animated.Value = new Animated.Value(-height);
 let firstContactEmailInput: any;
@@ -57,9 +57,9 @@ export default class SetupScreen extends Component<Props> {
     super(props);
     this.state = {
       numberOfContactShown: 1,
-      contactName: ["", "", ""],
-      contactEmail: ["", "", ""],
-      username: ["", "", ""],
+      contactName: ['', '', ''],
+      contactEmail: ['', '', ''],
+      username: ['', '', ''],
       firstContactNameHasError: false,
       firstContactEmailHasError: false,
       firstUsernameHasError: false,
@@ -87,7 +87,7 @@ export default class SetupScreen extends Component<Props> {
     else if (numberOfContactShown === 2) this.animateUpward(thirdWrapper);
     else if (numberOfContactShown > 2)
       Toast.show({
-        text: "You have already added the maximum number of contacts!",
+        text: 'You have already added the maximum number of contacts!',
         duration: constants.toastDuration,
       });
     this.setState({ numberOfContactShown: numberOfContactShown + 1 });
@@ -104,7 +104,7 @@ export default class SetupScreen extends Component<Props> {
   validateEmail = (emails: Array<string>) => {
     const result = emails.map((email: string, index: number) => {
       const isValid = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g.test(
-        email.toLowerCase()
+        email.toLowerCase(),
       );
       if (!isValid) return index;
     });
@@ -216,7 +216,7 @@ export default class SetupScreen extends Component<Props> {
                                                           ) {
                                                             Toast.show({
                                                               text:
-                                                                "An error occurred, details not saved!",
+                                                                'An error occurred, details not saved!',
                                                               duration:
                                                                 constants.toastDuration,
                                                               style: {
@@ -226,7 +226,7 @@ export default class SetupScreen extends Component<Props> {
                                                             });
                                                           } else {
                                                             await AsyncStorage.setItem(
-                                                              "contactDetails",
+                                                              'contactDetails',
                                                               JSON.stringify({
                                                                 0: {
                                                                   contactEmail: contactEmail[0].toLowerCase(),
@@ -249,28 +249,28 @@ export default class SetupScreen extends Component<Props> {
                                                                   username:
                                                                     username[2],
                                                                 },
-                                                              })
+                                                              }),
                                                             );
                                                             toggleIsFirstTime();
                                                             popToTop();
                                                           }
-                                                        }
+                                                        },
                                                       );
-                                                  }
+                                                  },
                                                 );
-                                            }
+                                            },
                                           );
-                                      }
+                                      },
                                     );
-                                }
+                                },
                               );
-                          }
+                          },
                         );
-                    }
+                    },
                   );
-              }
+              },
             );
-        }
+        },
       );
   };
 
@@ -299,38 +299,34 @@ export default class SetupScreen extends Component<Props> {
               <ScrollView
                 contentContainerStyle={styles.container}
                 keyboardShouldPersistTaps="handled"
-                testID="scrollView"
-              >
+                testID="scrollView">
                 <KeyboardAvoidingView
                   behavior="padding"
-                  keyboardVerticalOffset={30}
-                >
+                  keyboardVerticalOffset={30}>
                   <CustomText
                     text={
-                      "Who would you want to inform when in distress?\n\nAn email with your current location is going to be sent to the contacts provided."
+                      'Who would you want to inform when in distress?\n\nAn email with your current location is going to be sent to the contacts provided.'
                     }
                     style={styles.title}
                   />
                   <ContactDetails
                     style={styles.firstContactDetails}
-                    onContactEmailChange={(email) =>
+                    onContactEmailChange={email =>
                       (contactEmail[0] = email.trim())
                     }
-                    onContactNameChange={(name) =>
-                      (contactName[0] = name.trim())
-                    }
-                    onUsernameChange={(name) => (username[0] = name.trim())}
+                    onContactNameChange={name => (contactName[0] = name.trim())}
+                    onUsernameChange={name => (username[0] = name.trim())}
                     contactNameError={firstContactNameHasError}
                     usernameError={firstUsernameHasError}
                     emailError={firstContactEmailHasError}
-                    emailRef={(email) => (firstContactEmailInput = email)}
+                    emailRef={email => (firstContactEmailInput = email)}
                     onSubmitContactName={() =>
                       firstContactEmailInput._root.focus()
                     }
                     onSubmitContactEmail={() =>
                       firstUsernameInput._root.focus()
                     }
-                    usernameRef={(username) => (firstUsernameInput = username)}
+                    usernameRef={username => (firstUsernameInput = username)}
                     autoFocus
                     testID="firstContact"
                   />
@@ -338,17 +334,17 @@ export default class SetupScreen extends Component<Props> {
                   {numberOfContactShown > 1 ? (
                     <ContactDetails
                       style={{ bottom: secondWrapper }}
-                      onContactEmailChange={(email) =>
+                      onContactEmailChange={email =>
                         (contactEmail[1] = email.trim())
                       }
-                      onContactNameChange={(name) =>
+                      onContactNameChange={name =>
                         (contactName[1] = name.trim())
                       }
-                      onUsernameChange={(name) => (username[1] = name.trim())}
+                      onUsernameChange={name => (username[1] = name.trim())}
                       contactNameError={secondContactNameHasError}
                       usernameError={secondUsernameHasError}
                       emailError={secondContactEmailHasError}
-                      emailRef={(contactName) =>
+                      emailRef={contactName =>
                         (secondContactEmail = contactName)
                       }
                       onSubmitContactName={() =>
@@ -357,9 +353,7 @@ export default class SetupScreen extends Component<Props> {
                       onSubmitContactEmail={() =>
                         secondUsernameInput._root.focus()
                       }
-                      usernameRef={(username) =>
-                        (secondUsernameInput = username)
-                      }
+                      usernameRef={username => (secondUsernameInput = username)}
                       testID="secondContact"
                     />
                   ) : null}
@@ -368,17 +362,17 @@ export default class SetupScreen extends Component<Props> {
                     <>
                       <ContactDetails
                         style={{ bottom: thirdWrapper }}
-                        onContactEmailChange={(email) =>
+                        onContactEmailChange={email =>
                           (contactEmail[2] = email.trim())
                         }
-                        onContactNameChange={(name) =>
+                        onContactNameChange={name =>
                           (contactName[2] = name.trim())
                         }
-                        onUsernameChange={(name) => (username[2] = name.trim())}
+                        onUsernameChange={name => (username[2] = name.trim())}
                         contactNameError={thirdContactNameHasError}
                         usernameError={thirdUsernameHasError}
                         emailError={thirdContactEmailHasError}
-                        emailRef={(contactName) =>
+                        emailRef={contactName =>
                           (thirdContactEmailInput = contactName)
                         }
                         onSubmitContactName={() =>
@@ -387,7 +381,7 @@ export default class SetupScreen extends Component<Props> {
                         onSubmitContactEmail={() =>
                           thirdUsernameInput._root.focus()
                         }
-                        usernameRef={(username) =>
+                        usernameRef={username =>
                           (thirdUsernameInput = username)
                         }
                         onSubmitUsername={() =>
@@ -409,9 +403,8 @@ export default class SetupScreen extends Component<Props> {
               <Fab
                 style={styles.fab}
                 onPress={this.handleFabPress}
-                testID="fab"
-              >
-                <CustomText text={"\u002B"} style={styles.plusIcon} />
+                testID="fab">
+                <CustomText text={'\u002B'} style={styles.plusIcon} />
               </Fab>
             </SafeAreaView>
           );
