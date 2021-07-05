@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -7,14 +7,14 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-} from "react-native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import AsyncStorage from "@react-native-community/async-storage";
+} from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-community/async-storage';
 
-import { styles } from "./styles";
-import ContactDetails from "../_components/ContactDetails";
-import CustomButton from "../_components/CustomButton";
-import { colors } from "../colors";
+import { styles } from './styles';
+import ContactDetails from '../_components/ContactDetails';
+import CustomButton from '../_components/CustomButton';
+import { colors } from '../colors';
 
 interface Props {
   navigation: StackNavigationProp<Record<string, object | undefined>, string>;
@@ -72,7 +72,7 @@ export default class EditContactScreen extends Component<Props> {
     const { contact } = this.props.route.params;
     const { navigate } = this.props.navigation;
     let contactDetails: string | Contact = await AsyncStorage.getItem(
-      "contactDetails"
+      'contactDetails',
     );
     contactDetails = JSON.parse(contactDetails);
     contactDetails[contact] = {
@@ -81,14 +81,14 @@ export default class EditContactScreen extends Component<Props> {
       username: username.trim(),
     };
     await AsyncStorage.setItem(
-      "contactDetails",
-      JSON.stringify(contactDetails)
+      'contactDetails',
+      JSON.stringify(contactDetails),
     );
-    Alert.alert("Details successfully updated!", "", [
+    Alert.alert('Details successfully updated!', '', [
       {
-        text: "OK",
+        text: 'OK',
         onPress: () =>
-          navigate("HomeScreen", { contacts: contactDetails, fromEdit: true }),
+          navigate('HomeScreen', { contacts: contactDetails, fromEdit: true }),
       },
     ]);
   };
@@ -110,28 +110,26 @@ export default class EditContactScreen extends Component<Props> {
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView
           contentContainerStyle={styles.container}
-          keyboardShouldPersistTaps="always"
-        >
+          keyboardShouldPersistTaps="always">
           <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : null}
-            keyboardVerticalOffset={Platform.OS === "ios" ? 120 : null}
-          >
+            behavior={Platform.OS === 'ios' ? 'padding' : null}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 120 : null}>
             <ContactDetails
               contactName={contactName}
               contactEmail={contactEmail}
               username={username}
-              onContactNameChange={(contactName) =>
+              onContactNameChange={contactName =>
                 this.setState({ contactName })
               }
-              onContactEmailChange={(contactEmail) =>
+              onContactEmailChange={contactEmail =>
                 this.setState({ contactEmail })
               }
-              onUsernameChange={(username) => this.setState({ username })}
+              onUsernameChange={username => this.setState({ username })}
               contactNameError={nameHasError}
               usernameError={usernameHasError}
               emailError={emailHasError}
-              emailRef={(email) => (emailInput = email)}
-              usernameRef={(username) => (usernameInput = username)}
+              emailRef={email => (emailInput = email)}
+              usernameRef={username => (usernameInput = username)}
               onSubmitContactEmail={() => usernameInput._root.focus()}
               onSubmitContactName={() => emailInput._root.focus()}
               style={{ marginBottom: 0 }}
@@ -141,7 +139,7 @@ export default class EditContactScreen extends Component<Props> {
               <CustomButton
                 text="Cancel"
                 style={[styles.button, { backgroundColor: colors.red }]}
-                onPress={() => navigate("HomeScreen", { showModal: true })}
+                onPress={() => navigate('HomeScreen', { showModal: true })}
               />
               <CustomButton
                 text="Save"
