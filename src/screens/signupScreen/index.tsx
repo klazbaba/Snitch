@@ -32,6 +32,7 @@ export default class SignupScreen extends Component<null, State> {
     try {
       this.setState({ isLoading: true });
       const response = await signup({ email, firstname, lastName });
+      console.warn(JSON.stringify(response, null, 2));
     } catch (error) {
       console.error(error);
     } finally {
