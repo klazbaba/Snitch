@@ -9,7 +9,7 @@ import WelcomeScreen from 'screens/welcomeScreen';
 import SetupScreen from 'screens/setupScreen';
 import HomeScreen from 'screens/homeScreen';
 import EditContactScreen from 'screens/editContactScreen';
-import SignupScreen from 'screens/signupScreen';
+import SignupScreen from './screens/signupScreen';
 
 const AppStack = createStackNavigator();
 
