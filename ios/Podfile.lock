@@ -272,8 +272,8 @@ PODS:
   - React-jsinspector (0.64.2)
   - react-native-geolocation-service (5.0.0):
     - React
-  - react-native-safe-area-context (0.6.2):
-    - React
+  - react-native-safe-area-context (3.3.0):
+    - React-Core
   - React-perflogger (0.64.2)
   - React-RCTActionSheet (0.64.2):
     - React-Core/RCTActionSheetHeaders (= 0.64.2)
@@ -342,12 +342,13 @@ PODS:
     - React
   - RNCMaskedView (0.1.6):
     - React
-  - RNGestureHandler (1.5.3):
-    - React
+  - RNGestureHandler (1.10.3):
+    - React-Core
   - RNReanimated (1.7.0):
     - React
-  - RNScreens (2.0.0-alpha.29):
-    - React
+  - RNScreens (3.6.0):
+    - React-Core
+    - React-RCTImage
   - RNSVG (11.0.1):
     - React
   - Yoga (1.14.0)
@@ -546,7 +547,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 80c46bd381fd06e418e0d4f53672dc1d1945c4c3
   React-jsinspector: cc614ec18a9ca96fd275100c16d74d62ee11f0ae
   react-native-geolocation-service: 141e33bdb179bcba10b216ee13962611e21f2be4
-  react-native-safe-area-context: 25260c5d0b9c53fd7aa88e569e2edae72af1f6a3
+  react-native-safe-area-context: 61c8c484a3a9e7d1fda19f7b1794b35bbfd2262a
   React-perflogger: 25373e382fed75ce768a443822f07098a15ab737
   React-RCTActionSheet: af7796ba49ffe4ca92e7277a5d992d37203f7da5
   React-RCTAnimation: 6a2e76ab50c6f25b428d81b76a5a45351c4d77aa
@@ -561,9 +562,9 @@ SPEC CHECKSUMS:
   ReactCommon: 149906e01aa51142707a10665185db879898e966
   RNCAsyncStorage: 5d83b49070d41fd72906a116c5e7bdac4ea3a814
   RNCMaskedView: a88953beefbd347a29072d9eba90e42945fe291e
-  RNGestureHandler: 02905abe54e1f6e59c081a10b4bd689721e17aa6
+  RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
-  RNScreens: b20bdb598fe95ac37aada88a5e92f36622549e49
+  RNScreens: eb0dfb2d6b21d2d7f980ad46b14eb306d2f1062e
   RNSVG: 67f1f12dae2cef6ed59a42cae74a6b8f5a9e7b46
   Yoga: 575c581c63e0d35c9a83f4b46d01d63abc1100ac
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
