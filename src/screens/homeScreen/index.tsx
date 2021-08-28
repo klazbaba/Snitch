@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Button, Icon } from 'native-base';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LogBox } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
@@ -23,7 +23,10 @@ import { colors } from '../colors';
 import SnitchLoader from 'screens/_components/SnitchLoader';
 
 interface Props {
-  navigation: StackNavigationProp<Record<string, object | undefined>, string>;
+  navigation: NativeStackNavigationProp<
+    Record<string, object | undefined>,
+    string
+  >;
   route: Route;
 }
 
@@ -38,6 +41,7 @@ interface Route {
 interface State {
   contacts: Array<Contact>;
   isLoading: boolean;
+  currentContact?: string;
 }
 
 interface Contact {
@@ -54,8 +58,7 @@ const movingAnimationValue1 = new Animated.Value(0);
 
 const animationTime = 500;
 
-export default class HomeScreen extends Component<Props> {
-  state: State;
+export default class HomeScreen extends Component<Props, State> {
   toast: RefObject<any> = createRef();
 
   constructor(props: Props) {
@@ -63,7 +66,7 @@ export default class HomeScreen extends Component<Props> {
     AsyncStorage.getItem('contactDetails').then(contacts => {
       contacts = JSON.parse(contacts);
       this.setState({
-        contacts: Object.values(contacts),
+        contacts: (Object.values(contacts) as unknown) as Contact[],
         currentContact: contacts[0],
       });
     });
@@ -71,6 +74,7 @@ export default class HomeScreen extends Component<Props> {
     this.state = {
       contacts: [],
       isLoading: false,
+      currentContact: undefined,
     };
     LogBox.ignoreLogs([/useAnimatedDriver/]);
   }
@@ -80,7 +84,7 @@ export default class HomeScreen extends Component<Props> {
       if (this.props.route.params?.fromEdit) {
         const { contacts } = this.props.route.params;
         this.setState({
-          contacts: Object.values(contacts),
+          contacts: (Object.values(contacts) as unknown) as Contact[],
           currentContact: contacts[0],
         });
       }
@@ -166,6 +170,7 @@ export default class HomeScreen extends Component<Props> {
     const { navigate, setParams } = this.props.navigation;
     const { contacts } = this.state;
     setParams({ showModal: false });
+    // @ts-ignore
     navigate('EditContactScreen', { contact, details: contacts[contact] });
   };
 

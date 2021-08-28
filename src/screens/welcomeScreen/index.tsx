@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { View, SafeAreaView } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { styles } from './styles';
 import CustomText from '../_components/CustomText';
 import CustomButton from '../_components/CustomButton';
 import { colors } from '../colors';
+import { AppStackParams } from 'App';
 
-interface Props {
-  navigation: StackNavigationProp<Record<string, object | undefined>, string>;
-}
+type Props = NativeStackScreenProps<AppStackParams, 'WelcomeScreen'>;
 
 export default class WelcomeScreen extends Component<Props> {
   render() {
@@ -26,6 +25,7 @@ export default class WelcomeScreen extends Component<Props> {
             text="Get Started"
             style={styles.button}
             textStyle={styles.buttonText}
+            // @ts-ignore
             onPress={() => this.props.navigation.navigate('SignupScreen')}
             testID="getStartedButton"
           />
