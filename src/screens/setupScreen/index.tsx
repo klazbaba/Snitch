@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { Fab, Toast } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 // @ts-ignore
 import { LogBox } from 'react-native';
 
@@ -22,7 +22,10 @@ import { constants } from '../../constants';
 import { NavigationContext } from '../../App';
 
 interface Props {
-  navigation: StackNavigationProp<Record<string, object | undefined>, string>;
+  navigation: NativeStackNavigationProp<
+    Record<string, object | undefined>,
+    string
+  >;
 }
 
 interface State {
@@ -51,8 +54,7 @@ let secondUsernameInput: any;
 let thirdContactEmailInput: any;
 let thirdUsernameInput: any;
 
-export default class SetupScreen extends Component<Props> {
-  state: State;
+export default class SetupScreen extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {

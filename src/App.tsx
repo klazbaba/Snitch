@@ -3,22 +3,34 @@ import { NavigationContainer } from '@react-navigation/native';
 import React, { Component, createContext } from 'react';
 import { Root } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import WelcomeScreen from 'screens/welcomeScreen';
 import SetupScreen from 'screens/setupScreen';
 import HomeScreen from 'screens/homeScreen';
-import EditContactScreen from 'screens/editContactScreen';
+import EditContactScreen, { Contact } from 'screens/editContactScreen';
 import SignupScreen from './screens/signupScreen';
-
-const AppStack = createStackNavigator();
 
 interface State {
   initialRender: boolean;
   notFirstTime: boolean;
 }
 
+export type AppStackParams = {
+  WelcomeScreen: undefined;
+  SignupScreen: undefined;
+  HomeScreen: {
+    contacts?: string | Contact;
+    fromEdit?: boolean;
+    showModal?: boolean;
+  };
+  EditContactScreen: undefined;
+  SetupScreen: undefined;
+};
+
 interface Props {}
+
+const AppStack = createNativeStackNavigator<AppStackParams>();
 
 export const NavigationContext = createContext(null);
 
@@ -55,7 +67,7 @@ export default class Routes extends Component<Props, State> {
                 this.setState({ notFirstTime: true });
               },
             }}>
-            <AppStack.Navigator headerMode="none">
+            <AppStack.Navigator screenOptions={{ headerShown: false }}>
               {!notFirstTime ? (
                 <>
                   <AppStack.Screen

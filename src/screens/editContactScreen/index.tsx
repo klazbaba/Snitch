@@ -8,16 +8,17 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { styles } from './styles';
 import ContactDetails from '../_components/ContactDetails';
 import CustomButton from '../_components/CustomButton';
 import { colors } from '../colors';
+import { AppStackParams } from 'App';
 
 interface Props {
-  navigation: StackNavigationProp<Record<string, object | undefined>, string>;
+  navigation: NativeStackNavigationProp<AppStackParams, 'EditContactScreen'>;
   route: Route;
 }
 
@@ -27,7 +28,7 @@ interface ContactItem {
   username: string;
 }
 
-interface Contact {
+export interface Contact {
   details: ContactItem;
   contact?: number;
 }
@@ -49,9 +50,7 @@ interface TextInputProp extends TextInputProperties {
   _root?: { focus: () => void };
 }
 
-export default class EditContactScreen extends Component<Props> {
-  state: State;
-
+export default class EditContactScreen extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     props.navigation.setOptions({ header: () => null });
@@ -88,6 +87,7 @@ export default class EditContactScreen extends Component<Props> {
       {
         text: 'OK',
         onPress: () =>
+          // @ts-ignore
           navigate('HomeScreen', { contacts: contactDetails, fromEdit: true }),
       },
     ]);
@@ -139,6 +139,7 @@ export default class EditContactScreen extends Component<Props> {
               <CustomButton
                 text="Cancel"
                 style={[styles.button, { backgroundColor: colors.red }]}
+                // @ts-ignore
                 onPress={() => navigate('HomeScreen', { showModal: true })}
               />
               <CustomButton

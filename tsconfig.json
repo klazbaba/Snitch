@@ -10,6 +10,7 @@
     "rootDirs": ["./src", "__tests__"],
     "skipLibCheck": true,
     "baseUrl": ".",
-    "paths": { "*": ["src/*"], "tests": ["tests/*"] }
+    "paths": { "*": ["src/*"], "tests": ["tests/*"] },
+    "noEmit": true
   }
 }
