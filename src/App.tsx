@@ -69,7 +69,7 @@ export default class Routes extends Component<Props, State> {
             }}>
             <AppStack.Navigator screenOptions={{ headerShown: false }}>
               {!notFirstTime ? (
-                <>
+                <AppStack.Group>
                   <AppStack.Screen
                     name="WelcomeScreen"
                     component={WelcomeScreen}
@@ -78,9 +78,9 @@ export default class Routes extends Component<Props, State> {
                     name="SignupScreen"
                     component={SignupScreen}
                   />
-                </>
+                </AppStack.Group>
               ) : (
-                <>
+                <AppStack.Group>
                   <AppStack.Screen
                     name="HomeScreen"
                     component={HomeScreen}
@@ -91,7 +91,7 @@ export default class Routes extends Component<Props, State> {
                     name="EditContactScreen"
                   />
                   <AppStack.Screen name="SetupScreen" component={SetupScreen} />
-                </>
+                </AppStack.Group>
               )}
             </AppStack.Navigator>
           </NavigationContext.Provider>

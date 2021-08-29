@@ -4,6 +4,7 @@ export const signup = async (data: {
   email: string;
   firstname: string;
   lastName: string;
+  password: string;
 }) => {
   const response = await axios.post('authentication/sign-up', data);
   return response.data;
